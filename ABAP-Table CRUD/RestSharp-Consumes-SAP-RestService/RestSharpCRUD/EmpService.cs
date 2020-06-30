@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 namespace RestSharpCRUD {
     public class EmpService {
-        private String baseUrl = "http://sapecc6:8000";
+        // private String baseUrl = "http://sapecc6:8000";
+        private String baseUrl = "http://192.168.44.100:8000";
         private String username = "stone";
         private String password = "w123456";
 
