@@ -38,7 +38,7 @@ namespace RestSharpCRUD {
                 EMPADDR = txtAddress.Text
             };
 
-            var empService = new EmpMasterService();
+            var empService = new EmpService();
             bool rv = false;
             if (isAddNewMode) {
                 try {

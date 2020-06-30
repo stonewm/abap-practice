@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 
 namespace RestSharpCRUD {
-    public class EmpMasterService {
+    public class EmpService {
         private String baseUrl = "http://sapecc6:8000";
         private String username = "stone";
         private String password = "w123456";
 
         private RestSharpHelper restSharpHelper;
 
-        public EmpMasterService() {
+        public EmpService() {
             restSharpHelper = new RestSharpHelper(baseUrl, username, password);
         }
 
@@ -44,7 +44,8 @@ namespace RestSharpCRUD {
             String payload = JsonConvert.SerializeObject(emp);
 
             // Call POST method
-            var resp = restSharpHelper.Put("/zrest/employees/" + emp.EMPID, payload);
+            var resource = String.Format("/zrest/employees/{0}", emp.EMPID);
+            var resp = restSharpHelper.Put(resource, payload);
 
             if (!resp.IsSuccessful) {
                 throw new Exception(resp.Content);
@@ -56,7 +57,8 @@ namespace RestSharpCRUD {
         public bool Delete(String empId) {
             bool rv = false;
 
-            var resp = restSharpHelper.Delete("/zrest/employees/" + empId);
+            var resource = String.Format("/zrest/employees/{0}", empId);
+            var resp = restSharpHelper.Delete(resource);
             if (resp.IsSuccessful) rv = true;
 
             return rv;

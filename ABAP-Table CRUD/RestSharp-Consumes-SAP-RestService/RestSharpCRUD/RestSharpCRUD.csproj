@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmpEntity.cs" />
-    <Compile Include="EmpMasterService.cs" />
+    <Compile Include="EmpService.cs" />
     <Compile Include="EmpListForm.cs">
       <SubType>Form</SubType>
     </Compile>

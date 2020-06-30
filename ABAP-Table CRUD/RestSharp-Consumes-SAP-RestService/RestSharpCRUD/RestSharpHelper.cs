@@ -13,17 +13,20 @@ namespace RestSharpCRUD {
 
         public String BaseUrl { get; set; }
 
+        private RestClient client;
+
         public RestSharpHelper(String baseUrl, String username, String password) {
             this.BaseUrl = baseUrl;
             this.username = username;
             this.password = password;
+
+            // construct RestClient object
+            client = new RestClient(this.BaseUrl) {
+                Authenticator = new HttpBasicAuthenticator(username, password)
+            };
         }
 
         public IRestResponse Get(String resource) {
-            var client = new RestClient(this.BaseUrl) {
-                Authenticator = new HttpBasicAuthenticator(username, password)
-            };
-
             var req = new RestRequest(resource, Method.GET);
             var resp = client.Execute(req);
 
@@ -31,10 +34,6 @@ namespace RestSharpCRUD {
         }
 
         public IRestResponse Post(String resource, String payload) {
-            var client = new RestClient(this.BaseUrl) {
-                Authenticator = new HttpBasicAuthenticator(username, password)
-            };
-
             var req = new RestRequest(resource, Method.POST);
             req.RequestFormat = DataFormat.Json;
             req.AddJsonBody(payload);
@@ -46,10 +45,6 @@ namespace RestSharpCRUD {
         }
 
         public IRestResponse Put(String resource, String payload) {
-            var client = new RestClient(this.BaseUrl) {
-                Authenticator = new HttpBasicAuthenticator(username, password)
-            };
-
             var req = new RestRequest(resource, Method.PUT);
             req.RequestFormat = DataFormat.Json;
             req.AddJsonBody(payload);
@@ -61,10 +56,6 @@ namespace RestSharpCRUD {
         }
 
         public IRestResponse Delete(String resource) {
-            var client = new RestClient(this.BaseUrl) {
-                Authenticator = new HttpBasicAuthenticator(username, password)
-            };
-
             var req = new RestRequest(resource, Method.DELETE);
             var resp = client.Execute(req);
 
@@ -72,17 +63,17 @@ namespace RestSharpCRUD {
         }
 
 
-        public static IList<T> ToList<T>(string json) {
-            JObject generalObj = JObject.Parse(json); // json -> JObject
-            IList<JToken> jsonList = generalObj["rows"].Children().ToList();
+        //public static IList<T> ToList<T>(string json) {
+        //    JObject generalObj = JObject.Parse(json); // json -> JObject
+        //    IList<JToken> jsonList = generalObj["rows"].Children().ToList();
 
-            IList<T> genericList = new List<T>();
-            foreach (JToken tokenItem in jsonList) {
-                var item = JsonConvert.DeserializeObject<T>(tokenItem.ToString());
-                genericList.Add(item);
-            }
+        //    IList<T> genericList = new List<T>();
+        //    foreach (JToken tokenItem in jsonList) {
+        //        var item = JsonConvert.DeserializeObject<T>(tokenItem.ToString());
+        //        genericList.Add(item);
+        //    }
 
-            return genericList;
-        }
+        //    return genericList;
+        //}
     }
 }
