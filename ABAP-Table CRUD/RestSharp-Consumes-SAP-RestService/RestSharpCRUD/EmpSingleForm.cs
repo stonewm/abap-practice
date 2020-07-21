@@ -1,45 +1,53 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace RestSharpCRUD {
-    public partial class EmpSingleForm : Form {
+namespace RestSharpCRUD
+{
+    public partial class EmpSingleForm : Form
+    {
         private bool isAddNewMode = false;
 
-        public EmpSingleForm() {
+        #region constructors
+
+        public EmpSingleForm()
+        {
             InitializeComponent();
         }
 
-        public EmpSingleForm(BindingSource bs): this() {
+        public EmpSingleForm(BindingSource bs) : this()
+        {
             empBs = bs;
 
-            // Set data binding
+            //设置数据绑定
             SetBinding();
         }
 
-        public EmpSingleForm(BindingSource bs, bool addNew): this(bs) {
+        public EmpSingleForm(BindingSource bs, bool addNew) : this(bs)
+        {
             isAddNewMode = addNew;
         }
 
-        private void SetBinding() {
-            txtEmpID.DataBindings.Add("Text", empBs, "EMPID", true);           
-            txtName.DataBindings.Add("Text", empBs, "EMPNAME", true);
-            txtAddress.DataBindings.Add("Text", empBs, "EMPADDR", true);
-        }
+        #endregion 
 
-        private void EmpSingleForm_FormClosed(object sender, FormClosedEventArgs e) {
+        private void EmpSingleForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
             this.empBs.CancelEdit();
         }
 
-        private void BtnSave_Click(object sender, System.EventArgs e) {
-            var emp = new EmpEntity {
+        private void BtnSave_Click(object sender, System.EventArgs e)
+        {
+            bool rv = false; // return value
+
+            var emp = new EmpEntity
+            {
                 MANDT = "001",
-                EMPID = txtEmpID.Text,               
-                EMPNAME = txtName.Text,
-                EMPADDR = txtAddress.Text
+                EMPID = txtEmpID.Text.Trim(),
+                EMPNAME = txtName.Text.Trim(),
+                EMPADDR = txtAddress.Text.Trim()
             };
 
             var empService = new EmpService();
-            bool rv = false;
+            
             if (isAddNewMode) {
                 try {
                     rv = empService.Create(emp);
@@ -48,9 +56,9 @@ namespace RestSharpCRUD {
                     MessageBox.Show(ex.Message);
                 }
             }
-            else {                
+            else {
                 rv = empService.Update(emp);
-            }            
+            }
 
             if (rv) {
                 empBs.EndEdit();
@@ -58,9 +66,16 @@ namespace RestSharpCRUD {
             }
         }
 
-        private void EmpSingleForm_Load(object sender, EventArgs e) {
-            this.Text = "Employee Master Data Maintain";
+        private void EmpSingleForm_Load(object sender, EventArgs e)
+        {
             txtEmpID.Enabled = (isAddNewMode == true);
+        }
+
+        private void SetBinding()
+        {
+            txtEmpID.DataBindings.Add("Text", empBs, "EMPID", true);
+            txtName.DataBindings.Add("Text", empBs, "EMPNAME", true);
+            txtAddress.DataBindings.Add("Text", empBs, "EMPADDR", true);
         }
     }
 }
