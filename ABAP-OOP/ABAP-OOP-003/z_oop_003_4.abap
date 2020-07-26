@@ -1,38 +1,25 @@
+*&---------------------------------------------------------------------*
+*& Report  Z_OOP_003
+*&
+*&---------------------------------------------------------------------*
+
 REPORT  z_oop_003.
 
-* Class defintion
-CLASS lcl_vehicle DEFINITION CREATE PRIVATE.
-  PUBLIC SECTION.
-    CLASS-METHODS create RETURNING value(ref_vehicle) TYPE REF TO lcl_vehicle.
-
-    METHODS: accelerate IMPORTING delta TYPE i,
-             show_speed.
-
-  PRIVATE SECTION.
-    DATA speed TYPE i.
-ENDCLASS.                    "lcl_vehicle DEFINITION
-
-* Class implementation
-CLASS lcl_vehicle IMPLEMENTATION.
-  METHOD create.
-    CREATE OBJECT ref_vehicle.
-  ENDMETHOD.                    "create
-
-  METHOD accelerate.
-    me->speed = me->speed + delta.
-  ENDMETHOD.                    "accelerate
-
-  METHOD show_speed.
-    DATA: output TYPE string.
-
-    output = me->speed.
-    MESSAGE output TYPE 'I'.
-  ENDMETHOD.                    "show_speed
-ENDCLASS.                    "lcl_vehicle IMPLEMENTATION
+" 类的定义和实现在include程序中
+INCLUDE z_inc_vehicle_class.
 
 START-OF-SELECTION.
-  DATA: vehicle1 TYPE REF TO lcl_vehicle.
+  DATA: vehicle1 TYPE REF TO lcl_vehicle,
+        vehicle2 TYPE REF TO lcl_vehicle.
 
-  vehicle1 = lcl_vehicle=>create( ).
+  CREATE OBJECT vehicle1
+    EXPORTING brand = '标致'.
+
   vehicle1->accelerate( 35 ).
   vehicle1->show_speed( ).
+
+  CREATE OBJECT vehicle2
+    EXPORTING brand = '雪铁龙'.
+
+  vehicle2->accelerate( 40 ).
+  vehicle2->show_speed( ).
