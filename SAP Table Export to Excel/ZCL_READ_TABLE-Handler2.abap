@@ -6,12 +6,8 @@ METHOD if_http_extension~handle_request.
           query_string TYPE string.
   
     DATA: table_name   TYPE string,
-          table_key    TYPE string.
-  
-  
-    DATA: tabledescr_ref TYPE REF TO cl_abap_tabledescr,
-          descr_ref      TYPE REF TO cl_abap_structdescr,
-          comp_descr     TYPE        abap_compdescr.
+          table_key    TYPE string.  
+
   
     DATA dref TYPE REF TO data.
     FIELD-SYMBOLS <fs> TYPE STANDARD TABLE.
@@ -34,10 +30,7 @@ METHOD if_http_extension~handle_request.
     IF lv_verb = 'GET' AND path = '/sap/ztables'.
   
       CREATE DATA dref TYPE STANDARD TABLE OF (table_name).
-      ASSIGN dref->* TO <fs>.
-  
-      tabledescr_ref ?= cl_abap_typedescr=>describe_by_data( <fs> ).
-      descr_ref ?= tabledescr_ref->get_table_line_type( ).
+      ASSIGN dref->* TO <fs>. 
   
       SELECT * FROM (table_name) INTO TABLE <fs>.
   

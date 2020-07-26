@@ -2,12 +2,12 @@
 *& Report  Z_DATA_EXPPORT_EXCEL
 *&
 *&---------------------------------------------------------------------*
-*&
-*&
-*&---------------------------------------------------------------------*
 
 REPORT  z_data_expport_excel.
 
+*----------------------------------------------------------------------*
+* 定义3个XXL_SIMPLE_API函数必须的内表
+*----------------------------------------------------------------------*
 " GXXLT_V: Headings for DATA columns
 DATA BEGIN OF gt_gxxlt_v OCCURS 1.
         INCLUDE STRUCTURE gxxlt_v.
@@ -26,6 +26,9 @@ DATA BEGIN OF gt_gxxlt_p OCCURS 1.
 DATA END OF gt_gxxlt_p.
 
 
+*----------------------------------------------------------------------*
+* 存储数据的内表gt_spfli
+*----------------------------------------------------------------------*
 DATA: BEGIN OF gt_spfli OCCURS 0,
         carrid LIKE spfli-carrid,
         connid LIKE spfli-connid,
@@ -48,6 +51,11 @@ FORM get_data.
 
 ENDFORM.                    "get_data
 
+*----------------------------------------------------------------------*
+* 填充 gt_gxxlt_v
+* col_no: column number, 从1开始
+* col_name: column name, 在Excel的第一行显示
+*----------------------------------------------------------------------*
 FORM fill_gxxlt_v USING no name.
 
   CLEAR gt_gxxlt_v.
@@ -55,8 +63,11 @@ FORM fill_gxxlt_v USING no name.
   gt_gxxlt_v-col_name = name.
   APPEND gt_gxxlt_v.
 
-ENDFORM.                    "fill_gxxl_v
+ENDFORM.    
 
+*----------------------------------------------------------------------*
+* 数据导出到Excel
+*----------------------------------------------------------------------*
 FORM export_data_to_excel.
 
   perform fill_gxxlt_v using 1 '公司'.
