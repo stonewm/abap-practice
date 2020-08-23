@@ -1,6 +1,13 @@
+*&---------------------------------------------------------------------*
+*& Report  Z_OOP_01
+*&
+*&---------------------------------------------------------------------*
 
 REPORT  z_oop_01.
 
+*----------------------------------------------------------------------*
+*       CLASS book DEFINITION
+*----------------------------------------------------------------------*
 CLASS book DEFINITION.
 
   PUBLIC SECTION.
@@ -16,6 +23,9 @@ CLASS book DEFINITION.
 ENDCLASS.                    "lcl_book DEFINITION
 
 
+*----------------------------------------------------------------------*
+*       CLASS book IMPLEMENTATION
+*----------------------------------------------------------------------*
 CLASS book IMPLEMENTATION.
 
   METHOD print_info.
@@ -29,9 +39,12 @@ ENDCLASS.                    "Book IMPLEMENTATION
 
 
 START-OF-SELECTION.
+
+*-------------定义引用类型的变量---------------------------------------*
   DATA: book1 TYPE REF TO book,
         book2 TYPE REF TO book.
 
+*-------------创建book的实例------------------------------------------*
   CREATE OBJECT book1.
 
   book1->title = '窗边的小豆豆'.
