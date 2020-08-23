@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="TEST">
+ <PROG NAME="Z_TABLE_CRUD" VARCL="X" SUBC="1" RSTAT="T" RMAND="001" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Program Z_TABLE_CRUD" LENGTH="20 "/>
+   </language>
+  </textPool>
+  <dynpros>
+   <dynpro PROG="Z_TABLE_CRUD" DNUM="2000" FNUM="2000" BZMX="21 " BZBR="107 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="27 " NOCO="120 " VALP="0 " CUAN="G" SPRA="E" DTEXT="Employee maintenance Screen">
+    <dynprofield FNAM="LT_EMP" DIDX="0012" FLG1="F8" FLG2="F8" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="5D" LINE="01" COLN="04" LTYP="E" LANF="65" LBLK="01" LREP="01" AGLT="05" ADEZ="0F"/>
+    <dynprofield FNAM="GT_EMP-EMPID" DIDX="000A" FLG1="00" FLG2="00" FLG3="08" FMB1="30" FMB2="80" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="EMPID"/>
+    <dynprofield FNAM="GT_EMP-EMPNAME" DIDX="0014" FLG1="00" FLG2="00" FLG3="08" FMB1="30" FMB2="80" LENG="14" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="EMPNAME"/>
+    <dynprofield FNAM="GT_EMP-EMPADDR" DIDX="0028" FLG1="00" FLG2="00" FLG3="08" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="EMPADDR"/>
+    <dynprofield FNAM="GT_EMP-CHK" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00"/>
+    <dynprofield FNAM="GT_EMP-EMPID" DIDX="000A" FLG1="80" FLG2="00" FLG3="88" FMB1="00" FMB2="00" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00"/>
+    <dynprofield FNAM="GT_EMP-EMPNAME" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FMB1="00" FMB2="00" LENG="14" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00"/>
+    <dynprofield FNAM="GT_EMP-EMPADDR" DIDX="0028" FLG1="80" FLG2="00" FLG3="88" FMB1="00" FMB2="00" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00"/>
+    <dynprofield FNAM="LT_EMP_INSERT" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="1B" LINE="13" COLN="04" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" GRP1="MOD" AGLT="00" ADEZ="00" STXT="@17@" RES1="                                                                                                                                                                        LT_EMP_INSR"/>
+    <dynprofield FNAM="LT_EMP_DELETE" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="08" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="104" GRP1="MOD" AGLT="00" ADEZ="00" STXT="@18@" RES1="                                                                                                                                                                        LT_EMP_DELE"/>
+    <dynprofield FNAM="LT_EMP_TOP" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="0E" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="105" GRP1="PAG" AGLT="00" ADEZ="00" STXT="@2Y@" RES1="                                                                                                                                                                        LT_EMP_P--"/>
+    <dynprofield FNAM="LT_EMP_PREVIOUS" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="12" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="106" GRP1="PAG" AGLT="00" ADEZ="00" STXT="@2Z@" RES1="                                                                                                                                                                        LT_EMP_P-"/>
+    <dynprofield FNAM="LT_EMP_NEXT" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="16" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="107" GRP1="PAG" AGLT="00" ADEZ="00" STXT="@30@" RES1="                                                                                                                                                                        LT_EMP_P+"/>
+    <dynprofield FNAM="LT_EMP_BOTTOM" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="1A" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="108" GRP1="PAG" AGLT="00" ADEZ="00" STXT="@31@" RES1="                                                                                                                                                                        LT_EMP_P++"/>
+    <dynprofield FNAM="LT_EMP_MARK" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="20" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="109" GRP1="MAR" AGLT="00" ADEZ="00" STXT="@4B@" RES1="                                                                                                                                                                        LT_EMP_MARK"/>
+    <dynprofield FNAM="LT_EMP_DEMARK" DIDX="0003" FLG1="00" FLG2="00" FLG3="08" FILL="P" FMB1="30" FMB2="00" LENG="04" LINE="13" COLN="24" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="110" GRP1="MAR" AGLT="00" ADEZ="00" STXT="@4D@" RES1="                                                                                                                                                                        LT_EMP_DMRK"/>
+    <dynprofield FNAM="OK_CODE" DIDX="0000" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+    <dynproflowsource>PROCESS BEFORE OUTPUT.
+*&amp;SPWIZARD: PBO FLOW LOGIC FOR TABLECONTROL &apos;LT_EMP&apos;
+  MODULE LT_EMP_CHANGE_TC_ATTR.
+*&amp;SPWIZARD: MODULE LT_EMP_CHANGE_COL_ATTR.
+  LOOP AT   GT_EMP
+       WITH CONTROL LT_EMP
+       CURSOR LT_EMP-CURRENT_LINE.
+    MODULE LT_EMP_GET_LINES.
+*&amp;SPWIZARD:   MODULE LT_EMP_CHANGE_FIELD_ATTR
+  ENDLOOP.
+
+
+ MODULE STATUS_2000.
+*
+PROCESS AFTER INPUT.
+*&amp;SPWIZARD: PAI FLOW LOGIC FOR TABLECONTROL &apos;LT_EMP&apos;
+  LOOP AT GT_EMP.
+    CHAIN.
+      FIELD GT_EMP-EMPID.
+      FIELD GT_EMP-EMPNAME.
+      FIELD GT_EMP-EMPADDR.
+      MODULE LT_EMP_MODIFY ON CHAIN-REQUEST.
+    endchain.
+    FIELD GT_EMP-CHK
+      MODULE LT_EMP_MARK ON REQUEST.
+  ENDLOOP.
+  MODULE LT_EMP_USER_COMMAND.
+*&amp;SPWIZARD: MODULE LT_EMP_CHANGE_TC_ATTR.
+*&amp;SPWIZARD: MODULE LT_EMP_CHANGE_COL_ATTR.
+
+*
+ MODULE USER_COMMAND_2000.</dynproflowsource>
+   </dynpro>
+  </dynpros>
+  <pfstatus>
+   <pfstatus_sta CODE="STANDARD" MODAL="D" ACTCODE="000001" PFKCODE="000001" BUTCODE="0001" INT_NOTE="Standard"/>
+   <pfstatus_fun CODE="BACK" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back"/>
+   <pfstatus_fun CODE="CANCEL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_CANCEL" ICON_ID="@0W@" FUN_TEXT="Cancel"/>
+   <pfstatus_fun CODE="EXIT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Exit"/>
+   <pfstatus_fun CODE="SAVE" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SYSTEM_SAVE" ICON_ID="@2L@" FUN_TEXT="Save"/>
+   <pfstatus_pfk CODE="000001" PFNO="03" FUNCODE="BACK" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="11" FUNCODE="SAVE" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="12" FUNCODE="CANCEL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="15" FUNCODE="EXIT" FUNNO="001"/>
+   <pfstatus_set STATUS="STANDARD" FUNCTION="BACK"/>
+   <pfstatus_set STATUS="STANDARD" FUNCTION="CANCEL"/>
+   <pfstatus_set STATUS="STANDARD" FUNCTION="EXIT"/>
+   <pfstatus_set STATUS="STANDARD" FUNCTION="SAVE"/>
+   <pfstatus_doc OBJ_TYPE="A" OBJ_CODE="000001" MODAL="D" INT_NOTE="Standard"/>
+   <pfstatus_doc OBJ_TYPE="P" OBJ_CODE="000001" MODAL="D" INT_NOTE="Standard"/>
+   <pfstatus_doc OBJ_TYPE="B" OBJ_CODE="000001" SUB_CODE="0001" MODAL="D" INT_NOTE="Standard"/>
+   <pfstatus_tit CODE="STANDARD" TEXT="Employee CRUD Demo"/>
+  </pfstatus>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report  Z_TABLE_CRUD
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;
+*&amp;---------------------------------------------------------------------*
+
+REPORT  z_table_crud.
+
+DATA: ok_code LIKE sy-ucomm,
+      save_ok LIKE ok_code.
+
+
+DATA: gs_emp1 LIKE zemployee.
+
+DATA: BEGIN OF gt_emp OCCURS 0,
+        chk TYPE c.
+        INCLUDE STRUCTURE gs_emp1.
+DATA: END OF gt_emp.
+
+DATA: gt_emp_save LIKE STANDARD TABLE OF zemployee,
+      gs_emp      LIKE LINE OF gt_emp_save.
+
+START-OF-SELECTION.
+  PERFORM get_data.
+  CALL SCREEN 2000.
+
+
+*----------------------------------------------------------------------*
+*  MODULE STATUS_2000 OUTPUT
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+MODULE status_2000 OUTPUT.
+  SET PF-STATUS &apos;STANDARD&apos;.
+  SET TITLEBAR &apos;STANDARD&apos;.
+ENDMODULE.                    &quot;STATUS_2000 OUTPUT
+
+
+*----------------------------------------------------------------------*
+*  MODULE USER_COMMAND_2000 INPUT
+*----------------------------------------------------------------------*
+*
+*----------------------------------------------------------------------*
+MODULE user_command_2000 INPUT.
+  save_ok = ok_code.
+  CLEAR ok_code.
+
+  CASE save_ok.
+    WHEN &apos;BACK&apos;.
+      LEAVE TO SCREEN 0.
+    WHEN &apos;EXIT&apos; OR &apos;CANCEL&apos;.
+      LEAVE PROGRAM.
+    WHEN &apos;SAVE&apos;.
+      PERFORM save_data.
+  ENDCASE.
+ENDMODULE.                    &quot;USER_COMMAND_2000 INPUT
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  get_data
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+FORM get_data.
+
+  SELECT * INTO CORRESPONDING FIELDS OF TABLE gt_emp
+    FROM zemployee.
+ENDFORM.                    &quot;get_data
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  save_data
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+FORM save_data.
+  LOOP AT gt_emp.
+    CLEAR gs_emp.
+    gs_emp-mandt = &apos;001&apos;.
+    gs_emp-empid = gt_emp-empid.
+    gs_emp-empname = gt_emp-empname.
+    gs_emp-empaddr = gt_emp-empaddr.
+    APPEND gs_emp TO gt_emp_save.
+  ENDLOOP.
+
+  MODIFY zemployee FROM TABLE gt_emp_save.
+
+  MESSAGE &apos;Data was saved.&apos; TYPE &apos;S&apos;.
+ENDFORM.                    &quot;save_data
+
+*&amp;SPWIZARD: DECLARATION OF TABLECONTROL &apos;LT_EMP&apos; ITSELF
+CONTROLS: lt_emp TYPE TABLEVIEW USING SCREEN 2000.
+
+*&amp;SPWIZARD: LINES OF TABLECONTROL &apos;LT_EMP&apos;
+DATA:     g_lt_emp_lines  LIKE sy-loopc.
+
+*&amp;SPWIZARD: OUTPUT MODULE FOR TC &apos;LT_EMP&apos;. DO NOT CHANGE THIS LINE!
+*&amp;SPWIZARD: UPDATE LINES FOR EQUIVALENT SCROLLBAR
+MODULE lt_emp_change_tc_attr OUTPUT.
+  DESCRIBE TABLE gt_emp LINES lt_emp-lines.
+ENDMODULE.                    &quot;LT_EMP_CHANGE_TC_ATTR OUTPUT
+
+*&amp;SPWIZARD: OUTPUT MODULE FOR TC &apos;LT_EMP&apos;. DO NOT CHANGE THIS LINE!
+*&amp;SPWIZARD: GET LINES OF TABLECONTROL
+MODULE lt_emp_get_lines OUTPUT.
+  g_lt_emp_lines = sy-loopc.
+ENDMODULE.                    &quot;LT_EMP_GET_LINES OUTPUT
+
+*&amp;SPWIZARD: INPUT MODULE FOR TC &apos;LT_EMP&apos;. DO NOT CHANGE THIS LINE!
+*&amp;SPWIZARD: MODIFY TABLE
+MODULE lt_emp_modify INPUT.
+  MODIFY gt_emp
+    INDEX lt_emp-current_line.
+ENDMODULE.                    &quot;LT_EMP_MODIFY INPUT
+
+*&amp;SPWIZARD: INPUT MODUL FOR TC &apos;LT_EMP&apos;. DO NOT CHANGE THIS LINE!
+*&amp;SPWIZARD: MARK TABLE
+MODULE lt_emp_mark INPUT.
+  DATA: g_lt_emp_wa2 LIKE LINE OF gt_emp.
+  IF lt_emp-line_sel_mode = 1
+  AND gt_emp-chk = &apos;X&apos;.
+    LOOP AT gt_emp INTO g_lt_emp_wa2
+      WHERE chk = &apos;X&apos;.
+      g_lt_emp_wa2-chk = &apos;&apos;.
+      MODIFY gt_emp
+        FROM g_lt_emp_wa2
+        TRANSPORTING chk.
+    ENDLOOP.
+  ENDIF.
+  MODIFY gt_emp
+    INDEX lt_emp-current_line
+    TRANSPORTING chk.
+ENDMODULE.                    &quot;LT_EMP_MARK INPUT
+
+*&amp;SPWIZARD: INPUT MODULE FOR TC &apos;LT_EMP&apos;. DO NOT CHANGE THIS LINE!
+*&amp;SPWIZARD: PROCESS USER COMMAND
+MODULE lt_emp_user_command INPUT.
+  ok_code = sy-ucomm.
+  PERFORM user_ok_tc USING    &apos;LT_EMP&apos;
+                              &apos;GT_EMP&apos;
+                              &apos;CHK&apos;
+                     CHANGING ok_code.
+  sy-ucomm = ok_code.
+ENDMODULE.                    &quot;LT_EMP_USER_COMMAND INPUT
+
+*----------------------------------------------------------------------*
+*   INCLUDE TABLECONTROL_FORMS                                         *
+*----------------------------------------------------------------------*
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  USER_OK_TC                                               *
+*&amp;---------------------------------------------------------------------*
+FORM user_ok_tc USING    p_tc_name TYPE dynfnam
+                         p_table_name
+                         p_mark_name
+                CHANGING p_ok      LIKE sy-ucomm.
+
+*&amp;SPWIZARD: BEGIN OF LOCAL DATA----------------------------------------*
+  DATA: l_ok              TYPE sy-ucomm,
+        l_offset          TYPE i.
+*&amp;SPWIZARD: END OF LOCAL DATA------------------------------------------*
+
+*&amp;SPWIZARD: Table control specific operations                          *
+*&amp;SPWIZARD: evaluate TC name and operations                            *
+  SEARCH p_ok FOR p_tc_name.
+  IF sy-subrc &lt;&gt; 0.
+    EXIT.
+  ENDIF.
+  l_offset = STRLEN( p_tc_name ) + 1.
+  l_ok = p_ok+l_offset.
+*&amp;SPWIZARD: execute general and TC specific operations                 *
+  CASE l_ok.
+    WHEN &apos;INSR&apos;.                      &quot;insert row
+      PERFORM fcode_insert_row USING    p_tc_name
+                                        p_table_name.
+      CLEAR p_ok.
+
+    WHEN &apos;DELE&apos;.                      &quot;delete row
+      PERFORM fcode_delete_row USING    p_tc_name
+                                        p_table_name
+                                        p_mark_name.
+      CLEAR p_ok.
+
+    WHEN &apos;P--&apos; OR                     &quot;top of list
+         &apos;P-&apos;  OR                     &quot;previous page
+         &apos;P+&apos;  OR                     &quot;next page
+         &apos;P++&apos;.                       &quot;bottom of list
+      PERFORM compute_scrolling_in_tc USING p_tc_name
+                                            l_ok.
+      CLEAR p_ok.
+*     WHEN &apos;L--&apos;.                       &quot;total left
+*       PERFORM FCODE_TOTAL_LEFT USING P_TC_NAME.
+*
+*     WHEN &apos;L-&apos;.                        &quot;column left
+*       PERFORM FCODE_COLUMN_LEFT USING P_TC_NAME.
+*
+*     WHEN &apos;R+&apos;.                        &quot;column right
+*       PERFORM FCODE_COLUMN_RIGHT USING P_TC_NAME.
+*
+*     WHEN &apos;R++&apos;.                       &quot;total right
+*       PERFORM FCODE_TOTAL_RIGHT USING P_TC_NAME.
+*
+    WHEN &apos;MARK&apos;.                      &quot;mark all filled lines
+      PERFORM fcode_tc_mark_lines USING p_tc_name
+                                        p_table_name
+                                        p_mark_name   .
+      CLEAR p_ok.
+
+    WHEN &apos;DMRK&apos;.                      &quot;demark all filled lines
+      PERFORM fcode_tc_demark_lines USING p_tc_name
+                                          p_table_name
+                                          p_mark_name .
+      CLEAR p_ok.
+
+*     WHEN &apos;SASCEND&apos;   OR
+*          &apos;SDESCEND&apos;.                  &quot;sort column
+*       PERFORM FCODE_SORT_TC USING P_TC_NAME
+*                                   l_ok.
+
+  ENDCASE.
+
+ENDFORM.                              &quot; USER_OK_TC
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FCODE_INSERT_ROW                                         *
+*&amp;---------------------------------------------------------------------*
+FORM fcode_insert_row
+              USING    p_tc_name           TYPE dynfnam
+                       p_table_name             .
+
+*&amp;SPWIZARD: BEGIN OF LOCAL DATA----------------------------------------*
+  DATA l_lines_name       LIKE feld-name.
+  DATA l_selline          LIKE sy-stepl.
+  DATA l_lastline         TYPE i.
+  DATA l_line             TYPE i.
+  DATA l_table_name       LIKE feld-name.
+  FIELD-SYMBOLS &lt;tc&gt;                 TYPE cxtab_control.
+  FIELD-SYMBOLS &lt;table&gt;              TYPE STANDARD TABLE.
+  FIELD-SYMBOLS &lt;lines&gt;              TYPE i.
+*&amp;SPWIZARD: END OF LOCAL DATA------------------------------------------*
+
+  ASSIGN (p_tc_name) TO &lt;tc&gt;.
+
+*&amp;SPWIZARD: get the table, which belongs to the tc                     *
+  CONCATENATE p_table_name &apos;[]&apos; INTO l_table_name. &quot;table body
+  ASSIGN (l_table_name) TO &lt;table&gt;.                &quot;not headerline
+
+*&amp;SPWIZARD: get looplines of TableControl                              *
+  CONCATENATE &apos;G_&apos; p_tc_name &apos;_LINES&apos; INTO l_lines_name.
+  ASSIGN (l_lines_name) TO &lt;lines&gt;.
+
+*&amp;SPWIZARD: get current line                                           *
+  GET CURSOR LINE l_selline.
+  IF sy-subrc &lt;&gt; 0.                   &quot; append line to table
+    l_selline = &lt;tc&gt;-lines + 1.
+*&amp;SPWIZARD: set top line                                               *
+    IF l_selline &gt; &lt;lines&gt;.
+      &lt;tc&gt;-top_line = l_selline - &lt;lines&gt; + 1 .
+    ELSE.
+      &lt;tc&gt;-top_line = 1.
+    ENDIF.
+  ELSE.                               &quot; insert line into table
+    l_selline = &lt;tc&gt;-top_line + l_selline - 1.
+    l_lastline = &lt;tc&gt;-top_line + &lt;lines&gt; - 1.
+  ENDIF.
+*&amp;SPWIZARD: set new cursor line                                        *
+  l_line = l_selline - &lt;tc&gt;-top_line + 1.
+
+*&amp;SPWIZARD: insert initial line                                        *
+  INSERT INITIAL LINE INTO &lt;table&gt; INDEX l_selline.
+  &lt;tc&gt;-lines = &lt;tc&gt;-lines + 1.
+*&amp;SPWIZARD: set cursor                                                 *
+  SET CURSOR LINE l_line.
+
+ENDFORM.                              &quot; FCODE_INSERT_ROW
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FCODE_DELETE_ROW                                         *
+*&amp;---------------------------------------------------------------------*
+FORM fcode_delete_row
+              USING    p_tc_name           TYPE dynfnam
+                       p_table_name
+                       p_mark_name   .
+
+*&amp;SPWIZARD: BEGIN OF LOCAL DATA----------------------------------------*
+  DATA l_table_name       LIKE feld-name.
+
+  FIELD-SYMBOLS &lt;tc&gt;         TYPE cxtab_control.
+  FIELD-SYMBOLS &lt;table&gt;      TYPE STANDARD TABLE.
+  FIELD-SYMBOLS &lt;wa&gt;.
+  FIELD-SYMBOLS &lt;mark_field&gt;.
+*&amp;SPWIZARD: END OF LOCAL DATA------------------------------------------*
+
+  ASSIGN (p_tc_name) TO &lt;tc&gt;.
+
+*&amp;SPWIZARD: get the table, which belongs to the tc                     *
+  CONCATENATE p_table_name &apos;[]&apos; INTO l_table_name. &quot;table body
+  ASSIGN (l_table_name) TO &lt;table&gt;.                &quot;not headerline
+
+*&amp;SPWIZARD: delete marked lines                                        *
+  DESCRIBE TABLE &lt;table&gt; LINES &lt;tc&gt;-lines.
+
+  LOOP AT &lt;table&gt; ASSIGNING &lt;wa&gt;.
+
+*&amp;SPWIZARD: access to the component &apos;FLAG&apos; of the table header         *
+    ASSIGN COMPONENT p_mark_name OF STRUCTURE &lt;wa&gt; TO &lt;mark_field&gt;.
+
+    IF &lt;mark_field&gt; = &apos;X&apos;.
+      DELETE &lt;table&gt; INDEX syst-tabix.
+      IF sy-subrc = 0.
+        &lt;tc&gt;-lines = &lt;tc&gt;-lines - 1.
+      ENDIF.
+    ENDIF.
+  ENDLOOP.
+
+ENDFORM.                              &quot; FCODE_DELETE_ROW
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  COMPUTE_SCROLLING_IN_TC
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_TC_NAME  name of tablecontrol
+*      --&gt;P_OK       ok code
+*----------------------------------------------------------------------*
+FORM compute_scrolling_in_tc USING    p_tc_name
+                                      p_ok.
+*&amp;SPWIZARD: BEGIN OF LOCAL DATA----------------------------------------*
+  DATA l_tc_new_top_line     TYPE i.
+  DATA l_tc_name             LIKE feld-name.
+  DATA l_tc_lines_name       LIKE feld-name.
+  DATA l_tc_field_name       LIKE feld-name.
+
+  FIELD-SYMBOLS &lt;tc&gt;         TYPE cxtab_control.
+  FIELD-SYMBOLS &lt;lines&gt;      TYPE i.
+*&amp;SPWIZARD: END OF LOCAL DATA------------------------------------------*
+
+  ASSIGN (p_tc_name) TO &lt;tc&gt;.
+*&amp;SPWIZARD: get looplines of TableControl                              *
+  CONCATENATE &apos;G_&apos; p_tc_name &apos;_LINES&apos; INTO l_tc_lines_name.
+  ASSIGN (l_tc_lines_name) TO &lt;lines&gt;.
+
+
+*&amp;SPWIZARD: is no line filled?                                         *
+  IF &lt;tc&gt;-lines = 0.
+*&amp;SPWIZARD: yes, ...                                                   *
+    l_tc_new_top_line = 1.
+  ELSE.
+*&amp;SPWIZARD: no, ...                                                    *
+    CALL FUNCTION &apos;SCROLLING_IN_TABLE&apos;
+         EXPORTING
+              entry_act             = &lt;tc&gt;-top_line
+              entry_from            = 1
+              entry_to              = &lt;tc&gt;-lines
+              last_page_full        = &apos;X&apos;
+              loops                 = &lt;lines&gt;
+              ok_code               = p_ok
+              overlapping           = &apos;X&apos;
+         IMPORTING
+              entry_new             = l_tc_new_top_line
+         EXCEPTIONS
+*              NO_ENTRY_OR_PAGE_ACT  = 01
+*              NO_ENTRY_TO           = 02
+*              NO_OK_CODE_OR_PAGE_GO = 03
+              OTHERS                = 0.
+  ENDIF.
+
+*&amp;SPWIZARD: get actual tc and column                                   *
+  GET CURSOR FIELD l_tc_field_name
+             AREA  l_tc_name.
+
+  IF syst-subrc = 0.
+    IF l_tc_name = p_tc_name.
+*&amp;SPWIZARD: et actual column                                           *
+      SET CURSOR FIELD l_tc_field_name LINE 1.
+    ENDIF.
+  ENDIF.
+
+*&amp;SPWIZARD: set the new top line                                       *
+  &lt;tc&gt;-top_line = l_tc_new_top_line.
+
+
+ENDFORM.                              &quot; COMPUTE_SCROLLING_IN_TC
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FCODE_TC_MARK_LINES
+*&amp;---------------------------------------------------------------------*
+*       marks all TableControl lines
+*----------------------------------------------------------------------*
+*      --&gt;P_TC_NAME  name of tablecontrol
+*----------------------------------------------------------------------*
+FORM fcode_tc_mark_lines USING p_tc_name
+                               p_table_name
+                               p_mark_name.
+*&amp;SPWIZARD: EGIN OF LOCAL DATA-----------------------------------------*
+  DATA l_table_name       LIKE feld-name.
+
+  FIELD-SYMBOLS &lt;tc&gt;         TYPE cxtab_control.
+  FIELD-SYMBOLS &lt;table&gt;      TYPE STANDARD TABLE.
+  FIELD-SYMBOLS &lt;wa&gt;.
+  FIELD-SYMBOLS &lt;mark_field&gt;.
+*&amp;SPWIZARD: END OF LOCAL DATA------------------------------------------*
+
+  ASSIGN (p_tc_name) TO &lt;tc&gt;.
+
+*&amp;SPWIZARD: get the table, which belongs to the tc                     *
+  CONCATENATE p_table_name &apos;[]&apos; INTO l_table_name. &quot;table body
+  ASSIGN (l_table_name) TO &lt;table&gt;.                &quot;not headerline
+
+*&amp;SPWIZARD: mark all filled lines                                      *
+  LOOP AT &lt;table&gt; ASSIGNING &lt;wa&gt;.
+
+*&amp;SPWIZARD: access to the component &apos;FLAG&apos; of the table header         *
+    ASSIGN COMPONENT p_mark_name OF STRUCTURE &lt;wa&gt; TO &lt;mark_field&gt;.
+
+    &lt;mark_field&gt; = &apos;X&apos;.
+  ENDLOOP.
+ENDFORM.                                          &quot;fcode_tc_mark_lines
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FCODE_TC_DEMARK_LINES
+*&amp;---------------------------------------------------------------------*
+*       demarks all TableControl lines
+*----------------------------------------------------------------------*
+*      --&gt;P_TC_NAME  name of tablecontrol
+*----------------------------------------------------------------------*
+FORM fcode_tc_demark_lines USING p_tc_name
+                                 p_table_name
+                                 p_mark_name .
+*&amp;SPWIZARD: BEGIN OF LOCAL DATA----------------------------------------*
+  DATA l_table_name       LIKE feld-name.
+
+  FIELD-SYMBOLS &lt;tc&gt;         TYPE cxtab_control.
+  FIELD-SYMBOLS &lt;table&gt;      TYPE STANDARD TABLE.
+  FIELD-SYMBOLS &lt;wa&gt;.
+  FIELD-SYMBOLS &lt;mark_field&gt;.
+*&amp;SPWIZARD: END OF LOCAL DATA------------------------------------------*
+
+  ASSIGN (p_tc_name) TO &lt;tc&gt;.
+
+*&amp;SPWIZARD: get the table, which belongs to the tc                     *
+  CONCATENATE p_table_name &apos;[]&apos; INTO l_table_name. &quot;table body
+  ASSIGN (l_table_name) TO &lt;table&gt;.                &quot;not headerline
+
+*&amp;SPWIZARD: demark all filled lines                                    *
+  LOOP AT &lt;table&gt; ASSIGNING &lt;wa&gt;.
+
+*&amp;SPWIZARD: access to the component &apos;FLAG&apos; of the table header         *
+    ASSIGN COMPONENT p_mark_name OF STRUCTURE &lt;wa&gt; TO &lt;mark_field&gt;.
+
+    &lt;mark_field&gt; = space.
+  ENDLOOP.
+ENDFORM.                                          &quot;fcode_tc_mark_lines</source>
+ </PROG>
+</nugget>
