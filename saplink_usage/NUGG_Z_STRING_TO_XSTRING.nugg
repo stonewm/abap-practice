@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="Z_STRING_TO_XSTRING">
+ <FUGR AREA="ZSTONE_FM_GROUP" SPRAS="E" AREAT="function groups">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZSTONE_FM_GROUP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="001" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZSTONE_FM_GROUPTOP.               &quot; Global Data
+  INCLUDE LZSTONE_FM_GROUPUXX.               &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZSTONE_FM_GROUPF...               &quot; Subprograms
+* INCLUDE LZSTONE_FM_GROUPO...               &quot; PBO-Modules
+* INCLUDE LZSTONE_FM_GROUPI...               &quot; PAI-Modules
+
+INCLUDE LZSTONE_FM_GROUPF02.</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZSTONE_FM_GROUPF02" VARCL="X" SUBC="I" APPL="S" RMAND="001" RLOAD="E" UCCHECK="X">
+    <include_source>*&amp;---------------------------------------------------------------------*
+*&amp;  Include           LZSTONE_FM_GROUPF02
+*&amp;---------------------------------------------------------------------*
+
+  FORM string_length_adjust  USING value(out_len) TYPE i
+                          CHANGING xstring_stream TYPE xstring.
+
+    CONSTANTS: blank(1) TYPE x VALUE &apos;20&apos;.
+    DATA: off_len      TYPE i,
+          xstring_len  TYPE i.
+
+    xstring_len = XSTRLEN( xstring_stream ).
+
+    IF out_len &gt; xstring_len.
+      off_len = out_len - xstring_len.
+      DO off_len TIMES.
+        CONCATENATE xstring_stream blank INTO xstring_stream IN BYTE MODE.
+      ENDDO.
+    ELSE.
+      xstring_stream = xstring_stream+0(out_len).
+    ENDIF.
+
+  ENDFORM.                    &quot;string_length_adjust
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  check_broken_char
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      &lt;--P_XSTRING_STREAM  text
+*----------------------------------------------------------------------*
+  FORM check_broken_char  USING from_codepage TYPE abap_encoding
+                                out_len       TYPE i
+                          CHANGING xstring_stream TYPE xstring.
+    DATA:  off_len    TYPE i,
+           char_str   TYPE string,
+           last_xstr  TYPE xstring,
+           code_point TYPE xstring.
+    CONSTANTS: x_mark(1)   TYPE x VALUE &apos;23&apos;.               &quot; 23 -&gt; &quot;#&quot;
+
+* Get the last xstream in local code page
+    off_len = out_len - 1.
+    last_xstr = xstring_stream.
+    SHIFT last_xstr BY off_len PLACES IN BYTE MODE.
+
+* Convert the last xstream to character
+    PERFORM xstream_to_character USING from_codepage
+                                       last_xstr
+                                 CHANGING char_str.
+
+* Get the code point
+    code_point = cl_abap_conv_out_ce=&gt;uccp( char_str ).
+
+*  Check the last xstream is broken character
+*  &apos;E000&apos;- &apos;F8FF&apos;is Private User Area -&gt; encoding sets of broken muti-
+*  character
+    CHECK code_point GE &apos;E000&apos; AND code_point LE &apos;F8FF&apos;.
+    REPLACE SECTION OFFSET off_len LENGTH 1 OF xstring_stream WITH
+    x_mark IN BYTE MODE.
+
+  ENDFORM.                    &quot; check_broken_char
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  xstream_to_character
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_FROM_CODEPAGE  text
+*      --&gt;P_IN_XSTRING  text
+*      &lt;--P_OUT_STRING  text
+*----------------------------------------------------------------------*
+  FORM xstream_to_character  USING    from_codepage TYPE abap_encoding
+                                      in_xstring    TYPE xstring
+                             CHANGING out_string    TYPE string.
+
+* Conversion object from buffer produce
+    obj_convert_from_codepage = cl_abap_conv_in_ce=&gt;create(
+                                encoding    = from_codepage
+                                input       = in_xstring
+                                ignore_cerr = &apos;X&apos; ).
+
+* Buffers reconstruct
+    obj_convert_from_codepage-&gt;read( IMPORTING data = out_string ).
+
+  ENDFORM.                    &quot; xstream_to_character</include_source>
+   </include>
+   <include NAME="LZSTONE_FM_GROUPTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="001" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>FUNCTION-POOL zstone_fm_group.              &quot;MESSAGE-ID ..
+
+TYPE-POOLS: abap .
+
+DATA: obj_convert_to_codepage
+      TYPE REF TO cl_abap_conv_out_ce.
+
+DATA: obj_codepage_to_codepage
+      TYPE REF TO cl_abap_conv_x2x_ce.
+
+DATA: obj_convert_from_codepage
+      TYPE REF TO cl_abap_conv_in_ce.
+
+DATA: sys_gui_codepage TYPE tcp00-cpcodepage,
+      to_gui_codepage  TYPE abap_encoding.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="Z_STRING_TO_XSTRING" STEXT="Convert unicode string into xstring">
+    <importing PARAMETER="CODEPAGE_TO" DEFAULT="&apos;4110&apos;" REFERENCE="X" TYP="ABAP_ENCODING"/>
+    <importing PARAMETER="UNICODE_STRING" REFERENCE="X" TYP="STRING"/>
+    <importing PARAMETER="OUT_LEN" OPTIONAL="X" REFERENCE="X" TYP="I"/>
+    <exporting PARAMETER="XSTRING_STREAM" REFERENCE="X" TYP="XSTRING"/>
+    <exceptions EXCEPTION="INVALID_CODEPAGE"/>
+    <exceptions EXCEPTION="INVALID_STRING"/>
+    <documentation PARAMETER="CODEPAGE_TO" KIND="P" STEXT="Target code page" INDEX=" 001"/>
+    <documentation PARAMETER="UNICODE_STRING" KIND="P" STEXT="Unicode string to be converted" INDEX=" 002"/>
+    <documentation PARAMETER="OUT_LEN" KIND="P" STEXT="Length of xstream string in target code page" INDEX=" 003"/>
+    <documentation PARAMETER="XSTRING_STREAM" KIND="P" STEXT="Encoded byte stream in target code page" INDEX=" 004"/>
+    <documentation PARAMETER="INVALID_CODEPAGE" KIND="X" STEXT="The target codepage is invalid" INDEX=" 005"/>
+    <documentation PARAMETER="INVALID_STRING" KIND="X" STEXT="The string doesn&apos;t match the target codepage" INDEX=" 006"/>
+    <fm_source>DATA xstr_len TYPE i.
+
+* Initialize encoder
+
+  obj_convert_to_codepage   =   cl_abap_conv_out_ce=&gt;create(
+                                        encoding = codepage_to ).
+
+* Output buffers put back
+  obj_convert_to_codepage-&gt;reset( ).
+
+* Conversion call
+  obj_convert_to_codepage-&gt;write( data = unicode_string ).
+
+* Output buffers with converted data call up
+  xstring_stream = obj_convert_to_codepage-&gt;get_buffer( ).
+
+  xstr_len = xstrlen( xstring_stream ).
+
+* 1) Adjust xstring length.
+  IF out_len IS NOT INITIAL.
+    PERFORM string_length_adjust USING out_len
+                                 CHANGING xstring_stream.
+  ENDIF.
+* 2) Check the broken character
+  CHECK out_len IS NOT INITIAL AND xstr_len GT out_len.
+  PERFORM check_broken_char USING codepage_to  out_len
+                            CHANGING xstring_stream.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+</nugget>
