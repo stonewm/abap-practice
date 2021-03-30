@@ -1,0 +1,99 @@
+[
+  {
+    "Cell": "D6",
+    "FSItem": "ASST020",
+    "Type": 1,
+    "Sign":  1
+  },
+  {
+    "Cell": "E6",
+    "FSItem": "ASST020",
+    "Type": 6,
+    "Sign": 1
+  },
+  {
+    "Cell": "D11",
+    "FSItem": "ASST070",
+    "Type": 1,
+    "Sign": 1
+  },
+  {
+    "Cell": "E11",
+    "FSItem": "ASST070",
+    "Type": 6,
+    "Sign": 1
+  },
+  {
+    "Cell": "D26",
+    "FSItem": "ASST200",
+    "Type": 1,
+    "Sign": 1
+  },
+  {
+    "Cell": "E26",
+    "FSItem": "ASST200",
+    "Type": 6,
+    "Sign": 1
+  },
+  {
+    "Cell": "D27",
+    "FSItem": "ASST210",
+    "Type": 1,
+    "Sign": -1
+  },
+  {
+    "Cell": "E27",
+    "FSItem": "ASST210",
+    "Type": 6,
+    "Sign": -1
+  },
+  {
+    "Cell": "H9",
+    "FSItem": "LIAT050",
+    "Type": 1,
+    "Sign": -1
+  },
+  {
+    "Cell": "I9",
+    "FSItem": "LIAT050",
+    "Type": 6,
+    "Sign": -1
+  },
+  {
+    "Cell": "H12",
+    "FSItem": "LIAT080",
+    "Type": 1,
+    "Sign": -1
+  },
+  {
+    "Cell": "I12",
+    "FSItem": "LIAT080",
+    "Type": 6,
+    "Sign": -1
+  },
+  {
+    "Cell": "H15",
+    "FSItem": "LIAT110",
+    "Type": 1,
+    "Sign": -1
+  },
+  {
+    "Cell": "I15",
+    "FSItem": "LIAT110",
+    "Type": 6,
+    "Sign": -1
+  },
+  {
+    "Cell": "H36",
+    "FSItem": "EQT060",
+    "Type": 1,
+    "Sign": -1
+  },
+  {
+    "Cell": "I36",
+    "FSItem": "EQT060",
+    "Type": 6,
+    "Sign": -1
+  }
+]
+
