@@ -26,7 +26,7 @@ namespace VSTOSAP
         }
 
         public static RfcDestination GetSAPDestination()
-        {
+        {           
             return RfcDestinationManager.GetDestination(GetConfigParams());
         }
     }

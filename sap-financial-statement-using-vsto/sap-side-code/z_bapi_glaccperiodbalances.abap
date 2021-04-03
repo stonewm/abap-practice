@@ -86,8 +86,8 @@ function z_bapi_glaccperiodbalances.
 
     "计算期初余额
     lt_ret-open_balance = lt_ret-open_balance + lt_fag-hslvt."起始金额
+    lv_times = lv_times - 1.
     do lv_times times.
-
       move sy-index to lv_rpmax.
       shift lv_rpmax right deleting trailing space.
       overlay lv_rpmax with '00'.

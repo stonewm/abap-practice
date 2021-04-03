@@ -176,6 +176,10 @@
     <Compile Include="ReportSelectionForm.Designer.cs">
       <DependentUpon>ReportSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ribbon.cs">
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
+    <Compile Include="RuntimeReports.cs" />
     <Compile Include="Utils\DataTableUtils.cs" />
     <Compile Include="Utils\ExcelUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -189,9 +193,6 @@
     </Compile>
     <EmbeddedResource Include="ReportSelectionForm.resx">
       <DependentUpon>ReportSelectionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ribbon1.resx">
-      <DependentUpon>Ribbon1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAPTableForm.resx">
       <DependentUpon>SAPTableForm.cs</DependentUpon>
@@ -207,12 +208,6 @@
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Ribbon1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Ribbon1.Designer.cs">
-      <DependentUpon>Ribbon1.cs</DependentUpon>
     </Compile>
     <Compile Include="SAPTableForm.cs">
       <SubType>Form</SubType>
@@ -240,6 +235,7 @@
     <Content Include="bin\Debug\VSTOSAP.dll" />
     <Content Include="bin\Debug\VSTOSAP.pdb" />
     <Content Include="bin\Release\libicudecnumber.dll" />
+    <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

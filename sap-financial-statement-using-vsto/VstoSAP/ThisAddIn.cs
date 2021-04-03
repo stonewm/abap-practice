@@ -1,51 +1,38 @@
 ﻿using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Excel;
+using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace VSTOSAP {
     public partial class ThisAddIn
     {
         public static Excel.Application ExcelApp;
-        public static CommandBar cellCommandBar;
+
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             ExcelApp = Globals.ThisAddIn.Application;
-            AddDrillDownButton();
+
+            this.Application.SheetBeforeDelete += Application_SheetBeforeDelete;
         }
 
-        public void DrillDownButton_Click(CommandBarButton Ctrl, ref bool CancelDefault) {
-            Excel.Range currentCell = (Excel.Range) ExcelApp.ActiveCell;
-            currentCell.Value = ExcelUtils.GetRelativeAddress(currentCell);
-            CancelDefault = true;
+        /// <summary>
+        /// 工作表beforeDelete事件
+        /// </summary>
+        /// <param name="Sh"></param>
+        private void Application_SheetBeforeDelete(object Sh)
+        {
+            Worksheet sht = this.Application.ActiveSheet;
+            RuntimeReports.RemoveBy(sht.Name);            
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            DelDrillDownButton("DRILLDOWN");
         }
 
-        private void AddDrillDownButton() {
-            cellCommandBar = ExcelApp.CommandBars["Cell"];
-            cellCommandBar.Reset();
-
-            CommandBarButton drillDownButton = (CommandBarButton)cellCommandBar.Controls.Add(
-                MsoControlType.msoControlButton, Before: 1);
-            drillDownButton.Tag = "DRILLDOWN";
-            drillDownButton.Caption = "Drill Down";
-            drillDownButton.FaceId = 49;
-
-            drillDownButton.Click += DrillDownButton_Click;
+        protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject() {
+            return new Ribbon();
         }
-
-        private void DelDrillDownButton(string tagName) {
-            CommandBarControls controls = ExcelApp.CommandBars["Cell"].Controls;
-            foreach(CommandBarControl item in controls) {
-                if (item.Tag.ToString().Equals(tagName)) {
-                    item.Delete();
-                }
-            }
-        }
-
 
         #region VSTO generated code
 

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SAP.Middleware.Connector;
 using System;
 using System.Collections.Generic;
@@ -7,15 +6,17 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace VSTOSAP
-{
+namespace VSTOSAP {
     public class BalanceSheetService
     {        
         public List<CellDefinition> CellSettings;
-        public static BalanceSheetService GlobalInstance = new BalanceSheetService();
 
-        public BalanceSheetService()
-        {            
+        public BalanceSheetService(string companyCode, string reportYear, string reportPeriod)
+        {
+            this.CompanyCode = companyCode;
+            this.ReportYear = reportYear;
+            this.ReportPeriod = reportPeriod;
+
             this.LoadSettings();
         }
 
@@ -30,14 +31,25 @@ namespace VSTOSAP
         /// <param name="fisyear">Fiscal Year</param>
         /// <param name="period">Accounting Period</param>
         /// <returns></returns>
-        public System.Data.DataTable GetBsItems(string companycode, string fisyear, string period)
+        public System.Data.DataTable GetBsItems()
         {
+            // validation 
+            if (string.IsNullOrEmpty(this.CompanyCode)) {
+                throw new Exception("公司代码参数不能为空!");
+            }
+            if (string.IsNullOrEmpty(this.ReportYear) ) {
+                throw new Exception("年度参数不能为空!");
+            }
+            if (string.IsNullOrEmpty(this.ReportPeriod)) {
+                throw new Exception("期间参数不能为空!");
+            }
+
             RfcDestination sap = DestinationProvider.GetSAPDestination();
             IRfcFunction function = sap.Repository.CreateFunction("Z_BS_BALANCES");
 
-            function.SetValue("COMPANYCODE", companycode);
-            function.SetValue("FISCALYEAR", fisyear);
-            function.SetValue("FISCALPERIOD", period);
+            function.SetValue("COMPANYCODE", this.CompanyCode);
+            function.SetValue("FISCALYEAR", this.ReportYear);
+            function.SetValue("FISCALPERIOD", this.ReportPeriod);
 
             function.Invoke(sap);
 
@@ -54,18 +66,40 @@ namespace VSTOSAP
         /// <returns></returns>
         public System.Data.DataTable GetBsItems2(string companycode, string fisyear, string period)
         {
-            System.Data.DataTable itemsDataTable = GetBsItemsDetail(companycode, fisyear, period);
+            // validation 
+            if (string.IsNullOrEmpty(this.CompanyCode)) {
+                throw new Exception("公司代码参数不能为空!");
+            }
+            if (string.IsNullOrEmpty(this.ReportYear)) {
+                throw new Exception("年度参数不能为空!");
+            }
+            if (string.IsNullOrEmpty(this.ReportPeriod)) {
+                throw new Exception("期间参数不能为空!");
+            }
+
+            System.Data.DataTable itemsDataTable = GetBsItemsDetail();
             return this.TotalByFsItem(itemsDataTable);
         }
 
-        public System.Data.DataTable GetBsItemsDetail(string companycode, string fisyear, string period)
+        public System.Data.DataTable GetBsItemsDetail()
         {
+            // validation 
+            if (string.IsNullOrEmpty(this.CompanyCode)) {
+                throw new Exception("公司代码参数不能为空!");
+            }
+            if (string.IsNullOrEmpty(this.ReportYear)) {
+                throw new Exception("年度参数不能为空!");
+            }
+            if (string.IsNullOrEmpty(this.ReportPeriod)) {
+                throw new Exception("期间参数不能为空!");
+            }
+
             RfcDestination sap = DestinationProvider.GetSAPDestination();
             IRfcFunction function = sap.Repository.CreateFunction("Z_BS_BALANCES");
 
-            function.SetValue("COMPANYCODE", companycode);
-            function.SetValue("FISCALYEAR", fisyear);
-            function.SetValue("FISCALPERIOD", period);
+            function.SetValue("COMPANYCODE", this.CompanyCode);
+            function.SetValue("FISCALYEAR", this.ReportYear);
+            function.SetValue("FISCALPERIOD", this.ReportPeriod);
 
             function.Invoke(sap);
 
@@ -75,7 +109,7 @@ namespace VSTOSAP
 
         private System.Data.DataTable TotalByFsItem(System.Data.DataTable source)
         {
-            // group by FSItem and sum fields
+            // 按照FSItem分组合计
             var query = from bs in source.AsEnumerable()
                         group bs by bs.Field<string>("FSITEM") into g
                         select new
@@ -156,6 +190,11 @@ namespace VSTOSAP
             }
 
             return rv;
+        }
+
+        public override string ToString()
+        {
+            return $"Balance Sheet<Company code = {CompanyCode}, Year = {ReportYear}, Period={ReportPeriod}>";
         }
     }
 
