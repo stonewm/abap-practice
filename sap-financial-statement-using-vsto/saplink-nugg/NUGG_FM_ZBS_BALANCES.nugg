@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="ZBS_BALANCES">
+ <FUGR AREA="ZFIGRP" SPRAS="E" AREAT="FI Function Group">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZFIGRP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="001" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZFIGRPTOP.                        &quot; Global Data
+  INCLUDE LZFIGRPUXX.                        &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZFIGRPF...                        &quot; Subprograms
+* INCLUDE LZFIGRPO...                        &quot; PBO-Modules
+* INCLUDE LZFIGRPI...                        &quot; PAI-Modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZFIGRPTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="001" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>FUNCTION-POOL ZFIGRP.                       &quot;MESSAGE-ID ..</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="ZSAMPLE_PROCESS_00001120" STEXT="Beschreibung der Prozess-Schnittstelle 00001120">
+    <importing PARAMETER="I_BKDF" OPTIONAL="X" TYP="BKDF"/>
+    <changing PARAMETER="I_BKDFSUB" OPTIONAL="X" REFERENCE="X" TYP="BKDF_SUBST"/>
+    <tables PARAMETER="T_BKPF" DBSTRUCT="BKPF"/>
+    <tables PARAMETER="T_BSEG" DBSTRUCT="BSEG"/>
+    <tables PARAMETER="T_BKPFSUB" DBSTRUCT="BKPF_SUBST"/>
+    <tables PARAMETER="T_BSEGSUB" DBSTRUCT="BSEG_SUBST"/>
+    <tables PARAMETER="T_BSEC" DBSTRUCT="BSEC" OPTIONAL="X"/>
+    <documentation PARAMETER="I_BKDF" KIND="P" STEXT="Belegkopfergänzung für Dauerbuchung" INDEX=" 001"/>
+    <documentation PARAMETER="T_BKPF" KIND="P" STEXT="Belegköpfe" INDEX=" 002"/>
+    <documentation PARAMETER="T_BSEG" KIND="P" STEXT="Belegzeilen" INDEX=" 003"/>
+    <documentation PARAMETER="T_BKPFSUB" KIND="P" STEXT="Inhalte der substituierten BKPF-Felder" INDEX=" 004"/>
+    <documentation PARAMETER="T_BSEGSUB" KIND="P" STEXT="Inhalte der substituierten BSEG-Felder" INDEX=" 005"/>
+    <documentation PARAMETER="T_BSEC" KIND="P" STEXT="Belegsegment CPD-Daten" INDEX=" 006"/>
+    <documentation PARAMETER="I_BKDFSUB" KIND="P" STEXT="Prozess-Schnittstellen: Substituierbare Felder beim Buchen" INDEX=" 007"/>
+    <fm_source>data: l_flag(1) type c. &quot; type: 材料采购还是非材料采购
+
+  check ( sy-tcode = &apos;MIRO&apos; or sy-tcode = &apos;MR8M&apos; ).
+
+  read table t_bkpf index 1.
+  check t_bkpf-bukrs = &apos;Z900&apos;.
+
+* 代码并未严格考虑实际业务，仅作为示例
+  loop at t_bseg.
+    if t_bseg-hkont = &apos;0019800000&apos;. &quot; GR/IR account
+      if t_bseg-matnr &lt;&gt; &apos;&apos;.        &quot; 物料编码不为空
+        l_flag = &apos;X&apos;.               &quot; 是材料采购
+      else.
+        l_flag = &apos;&apos;.                &quot; 不是材料采购
+      endif.
+    endif.
+  endloop.
+
+  check l_flag = &apos;&apos;.
+  loop at t_bseg.
+    if t_bseg-hkont = &apos;0021210100&apos;.    &quot; 应付账款
+      read table t_bsegsub with key tabix = sy-tabix.
+      t_bsegsub-hkont = &apos;0021210101&apos;.  &quot; 应付项目款
+      modify t_bsegsub index sy-tabix.
+    endif .
+  endloop.</fm_source>
+    <functionModuleDocumentation OBJECT="ZSAMPLE_PROCESS_00001120">
+     <language SPRAS="D">
+      <textLine TDFORMAT="/:" TDLINE="DEFINE &amp;TEXT&amp;  = &apos;Substitution Belegfelder&apos;"/>
+      <textLine TDFORMAT="/:" TDLINE="DEFINE &amp;EVENT&amp; = &apos;00001120&apos;"/>
+      <textLine TDFORMAT="/:" TDLINE="DEFINE &amp;TYPE&amp;  = &apos;PROCESS&apos;"/>
+      <textLine TDFORMAT="/:" TDLINE="INCLUDE FI_OPEN_FI_DOCUMENTATION_1 OBJECT DOKU ID TX"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="U1" TDLINE="PROCESS"/>
+      <textLine TDFORMAT="AS" TDLINE="Der Prozess wird immer dann erreicht, wenn vor dem Verbuchen eines"/>
+      <textLine TDLINE="Beleges sämtliche Schlußprüfungen abgeschlossen sind. Zu diesem"/>
+      <textLine TDLINE="Zeitpunkt ist die Belegnummer jedoch noch nicht vergeben."/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="U1" TDLINE="SCHNITTSTELLE"/>
+      <textLine TDFORMAT="AS" TDLINE="An die Zusatzkomponente werden (nur für Informationszwecke) die"/>
+      <textLine TDLINE="aktuellen Belegköpfe (mehr als einer z.B. bei"/>
+      <textLine TDLINE="buchungskreisübergreifenden Vorgängen), die korrespondierenden"/>
+      <textLine TDLINE="Belegzeilen sowie die Dauerbuchungsdaten zum Belegkopf und die"/>
+      <textLine TDLINE="CPD-Daten übergeben. Diese Daten dürfen nicht bearbeitet werden."/>
+      <textLine TDLINE="Stattdessen werden zwei weitere Tabellen (T_BKPFSUB, T_BSEGSUB) und die"/>
+      <textLine TDLINE="Struktur BKDF_SUBSTübergeben. Diese sind gefüllt mit den Inhalten der"/>
+      <textLine TDLINE="Felder, die substituierbar sind. Das Feld TABIX enthält eine"/>
+      <textLine TDLINE="Zeilennummer, die anzeigt aus welcher Zeile in T_BSEG bzw. T_BKPF die"/>
+      <textLine TDLINE="Feldinhalte stammen."/>
+      <textLine TDFORMAT="AS" TDLINE="Zu beachten: Nach der Substitution erfolgt keine weitere Prüfung. Eine"/>
+      <textLine TDLINE="bestehende Zahlsperre, z.B. auf Grund einer Workflowdefinition, darf"/>
+      <textLine TDLINE="nicht überschrieben werden."/>
+      <textLine TDFORMAT="U1" TDLINE="&amp;EXAMPLE&amp;"/>
+      <textLine TDFORMAT="AS" TDLINE="In der 2. Zeile der Tabelle T_BSEG soll der Feldinhalt von SGTXT"/>
+      <textLine TDLINE="(Positionstext) mit dem Inhalt &apos;TEST&apos; substituiert werden. Das"/>
+      <textLine TDLINE="erfordert im wesentlichen eine Anweisungsfolge der Form"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="/" TDLINE="READ TABLE T_BSEGSUB WITH KEY TABIX = 2."/>
+      <textLine TDFORMAT="/" TDLINE="T_BSEGSUB-SGTXT = &apos;TEST&apos;."/>
+      <textLine TDFORMAT="/" TDLINE="MODIFY T_BSEGSUB INDEX SY-TABIX."/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="AS" TDLINE="Diese Anweisungsfolge ist im eigenen Baustein zu codieren !!"/>
+     </language>
+     <language SPRAS="E">
+      <textLine TDFORMAT="/:" TDLINE="DEFINE &amp;TEXT&amp;  = &apos;Substitution document fields&apos;"/>
+      <textLine TDFORMAT="/:" TDLINE="DEFINE &amp;EVENT&amp; = &apos;00001120&apos;"/>
+      <textLine TDFORMAT="/:" TDLINE="DEFINE &amp;TYPE&amp;  = &apos;PROCESS&apos;"/>
+      <textLine TDFORMAT="/:" TDLINE="INCLUDE FI_OPEN_FI_DOCUMENTATION_1 OBJECT DOKU ID TX LANGUAGE EN"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="U1" TDLINE="PROCESS"/>
+      <textLine TDFORMAT="AS" TDLINE="This process is always reached when all the final checks have been"/>
+      <textLine TDLINE="completed before a document is updated. However, at this stage, the"/>
+      <textLine TDLINE="document number has not yet been assigned."/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="U1" TDLINE="INTERFACE"/>
+      <textLine TDFORMAT="AS" TDLINE="The current document headers (there will be more than one for"/>
+      <textLine TDLINE="cross-company code transactions, for example), the corresponding line"/>
+      <textLine TDLINE="items and the recurring entry data for the document header and the"/>
+      <textLine TDLINE="one-time account data are transferred to the additional component, for"/>
+      <textLine TDLINE="information purposes only. You must not edit this data. Instead, two"/>
+      <textLine TDLINE="additional tables (T_BKPFSUB and T_BSEGSUB) and the structure BKDF_SUBST"/>
+      <textLine TDLINE="are also transferred. The contents of the fields that can be substituted"/>
+      <textLine TDLINE="are entered in these tables. Field TABIX contains a line number which"/>
+      <textLine TDLINE="shows from which line in T_BSEG or T_BKPF the field contents originate."/>
+      <textLine TDFORMAT="AS" TDLINE="Note: There is no additional check after the substitution. You must not"/>
+      <textLine TDLINE="overwrite an existing payment lock (for example, due to a workflow"/>
+      <textLine TDLINE="definition)."/>
+      <textLine TDFORMAT="U1" TDLINE="&amp;EXAMPLE&amp;"/>
+      <textLine TDFORMAT="AS" TDLINE="In the second line of table T_BSEG, the field contents from SGTXT (item"/>
+      <textLine TDLINE="text) should be replaced by the entry &apos;TEST&apos;. This basically requires a"/>
+      <textLine TDLINE="statement sequence in the form"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="/" TDLINE="READ TABLE T_BSEGSUB WITH KEY TABIX = 2."/>
+      <textLine TDFORMAT="/" TDLINE="T_BSEGSUB-SGTXT = &apos;TEST&apos;."/>
+      <textLine TDFORMAT="/" TDLINE="MODIFY T_BSEGSUB INDEX SY-TABIX."/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="AS"/>
+      <textLine TDFORMAT="AS" TDLINE="You must code this statement sequence in your own function module."/>
+     </language>
+    </functionModuleDocumentation>
+   </functionmodule>
+   <functionmodule NAME="Z_BAPI_GLACCPERIODBALANCES" REMOTE="R" STEXT="G/L Account Balances">
+    <importing PARAMETER="COMPANYCODE" TYP="ZGLACCBALANCE-COMPCODE"/>
+    <importing PARAMETER="FISCALYEAR" TYP="ZGLACCBALANCE-FISYEAR"/>
+    <importing PARAMETER="FISCALPERIOD" TYP="ZGLACCBALANCE-PERIOD"/>
+    <tables PARAMETER="ACC_BALANCES" DBSTRUCT="ZGLACCBALANCE"/>
+    <documentation PARAMETER="COMPANYCODE" KIND="P" STEXT="Company Code" INDEX=" 001"/>
+    <documentation PARAMETER="FISCALYEAR" KIND="P" STEXT="Fiscal Year" INDEX=" 002"/>
+    <documentation PARAMETER="FISCALPERIOD" KIND="P" STEXT="Fiscal Period" INDEX=" 003"/>
+    <documentation PARAMETER="ACC_BALANCES" KIND="P" STEXT="G/L Account Balance" INDEX=" 004"/>
+    <fm_source>data: begin of lt_fag occurs 0,
+              bukrs like faglflext-rbukrs,  &quot;公司代码
+              ryear like faglflext-ryear,   &quot;会计年度
+              racct like faglflext-racct,   &quot;会计科目
+              drcrk like faglflext-drcrk,   &quot;借贷方
+              hslvt like faglflext-hslvt,
+              hsl01 like faglflext-hsl01,
+              hsl02 like faglflext-hsl02,
+              hsl03 like faglflext-hsl03,
+              hsl04 like faglflext-hsl04,
+              hsl05 like faglflext-hsl05,
+              hsl06 like faglflext-hsl06,
+              hsl07 like faglflext-hsl07,
+              hsl08 like faglflext-hsl08,
+              hsl09 like faglflext-hsl09,
+              hsl10 like faglflext-hsl10,
+              hsl11 like faglflext-hsl11,
+              hsl12 like faglflext-hsl12,
+              hsl13 like faglflext-hsl13,
+              hsl14 like faglflext-hsl14,
+              hsl15 like faglflext-hsl15,
+              hsl16 like faglflext-hsl16,
+      end of lt_fag.
+
+  data lt_ret like zglaccbalance occurs 0 with header line.
+
+  field-symbols: &lt;field&gt;.
+
+  data: lv_idx type i,
+        lv_times type i,
+        lv_int type i,
+        lv_rpmax(2) type c,
+        lv_fieldname type string,
+        lv_hslxx like faglflext-hslvt,
+        lv_waers like t001-waers,
+        lv_ktopl like t001-ktopl.
+
+  &quot;获取公司本位币
+  select single waers ktopl
+    into (lv_waers,lv_ktopl)
+    from t001
+   where bukrs = companycode.
+
+  select rbukrs as bukrs
+         ryear racct drcrk
+         hslvt
+         hsl01 hsl02 hsl03 hsl04
+         hsl05 hsl06 hsl07 hsl08
+         hsl09 hsl10 hsl11 hsl12
+         hsl13 hsl14 hsl15 hsl16
+    into corresponding fields of table lt_fag
+    from faglflext
+   where rbukrs = companycode
+     and ryear = fiscalyear.
+
+  sort lt_fag by bukrs ryear racct drcrk.
+  loop at lt_fag.
+    at new racct.
+      clear lt_ret.
+      lt_ret-compcode  = lt_fag-bukrs.
+      lt_ret-glaccount = lt_fag-racct.
+      lt_ret-fisyear  = lt_fag-ryear.
+      lt_ret-period = fiscalperiod.
+      lt_ret-curr       = lv_waers.
+    endat.
+
+    &quot;年初余额
+    lt_ret-yr_openbal = lt_ret-yr_openbal + lt_fag-hslvt.
+
+    if fiscalperiod &gt; 12.
+      lv_times = 16.
+    else.
+      lv_times = fiscalperiod.
+    endif.
+
+    &quot;计算期初余额
+    lt_ret-open_balance = lt_ret-open_balance + lt_fag-hslvt.&quot;起始金额
+    do lv_times times.
+
+      move sy-index to lv_rpmax.
+      shift lv_rpmax right deleting trailing space.
+      overlay lv_rpmax with &apos;00&apos;.
+      concatenate &apos;HSL&apos; lv_rpmax into lv_fieldname.
+      assign component lv_fieldname of structure lt_fag to &lt;field&gt;.
+      move &lt;field&gt; to lv_hslxx.
+
+      lt_ret-open_balance = lt_ret-open_balance + lv_hslxx.
+    enddo.
+
+    &quot; 16期的发生额包括12-16，所以计算4+1
+    if fiscalperiod &gt; 12.
+      lv_times = 1 + 4.
+    else.
+      lv_times = 1.
+    endif.
+
+    &quot;期间发生额
+    do lv_times times.
+      lv_int = fiscalperiod + sy-index - 1.
+      move lv_int to lv_rpmax.
+      shift lv_rpmax right deleting trailing space.
+      overlay lv_rpmax with &apos;00&apos;.
+      concatenate &apos;HSL&apos; lv_rpmax into lv_fieldname.
+      assign component lv_fieldname of structure lt_fag to &lt;field&gt;.
+      move &lt;field&gt; to lv_hslxx.
+
+      if lt_fag-drcrk = &apos;S&apos;. &quot; 期间借方
+        lt_ret-debit_per = lt_ret-debit_per + lv_hslxx.
+      else.  &quot;期间贷方
+        lt_ret-credit_per = lt_ret-credit_per + lv_hslxx.
+      endif.
+    enddo.
+
+    at end of racct.
+      append lt_ret.
+    endat.
+  endloop.
+
+  loop at lt_ret.
+    lv_idx = sy-tabix.
+
+    select single txt20 into lt_ret-acctext
+    from skat
+    where spras = &apos;1&apos; and saknr = lt_ret-glaccount and ktopl = lv_ktopl.
+
+    &quot;期间发生额（借方+贷方）
+    lt_ret-per_amt = lt_ret-debit_per + lt_ret-credit_per.
+
+    &quot;期末余额
+    lt_ret-balance = lt_ret-open_balance + lt_ret-per_amt.
+
+    modify lt_ret index lv_idx.
+  endloop.
+
+  delete lt_ret where yr_openbal = 0
+                and open_balance = 0
+                and debit_per = 0
+                and credit_per = 0.
+
+  acc_balances[] = lt_ret[].</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="Z_BS_BALANCES" REMOTE="R" STEXT="G/L Account Balances">
+    <importing PARAMETER="COMPANYCODE" TYP="ZGLACCBALANCE-COMPCODE"/>
+    <importing PARAMETER="FISCALYEAR" TYP="ZGLACCBALANCE-FISYEAR"/>
+    <importing PARAMETER="FISCALPERIOD" TYP="ZGLACCBALANCE-PERIOD"/>
+    <tables PARAMETER="ACC_BALANCES" DBSTRUCT="ZFSBALANCE"/>
+    <tables PARAMETER="FS_BALANCES" DBSTRUCT="ZFSBALANCESUM"/>
+    <documentation PARAMETER="COMPANYCODE" KIND="P" STEXT="Company Code" INDEX=" 001"/>
+    <documentation PARAMETER="FISCALYEAR" KIND="P" STEXT="Fiscal Year" INDEX=" 002"/>
+    <documentation PARAMETER="FISCALPERIOD" KIND="P" STEXT="Fiscal Period" INDEX=" 003"/>
+    <documentation PARAMETER="ACC_BALANCES" KIND="P" STEXT="Financial Statement Balances" INDEX=" 004"/>
+    <documentation PARAMETER="FS_BALANCES" KIND="P" STEXT="Financial Statement Balances Total" INDEX=" 005"/>
+    <fm_source_new>data: lt_setvalues type table of rgsb4,
+        ls_setvalues like line of lt_setvalues.
+
+  data lt_all like standard table of zglaccbalance with header line.   &quot; balances for all acocunts
+
+  data: lt_ret     like standard table of zfsbalance with header line,      &quot; 报表项金额
+        lt_sum     like standard table of zfsbalancesum with header line,   &quot; 报表项金额汇总
+        lt_sumtemp like standard table of lt_sum with header line.
+
+  call function &apos;Z_BAPI_GLACCPERIODBALANCES&apos;
+    exporting
+      companycode  = companycode
+      fiscalyear   = fiscalyear
+      fiscalperiod = fiscalperiod
+    tables
+      acc_balances = lt_all.
+
+  &quot; 数据拷贝到内表lt_ret
+  loop at lt_all.
+    move-corresponding lt_all to lt_ret.
+    append lt_ret.
+    clear: lt_all, lt_ret.
+  endloop.
+
+  &quot;获取set数据
+  call function &apos;G_SET_GET_ALL_VALUES&apos;
+    exporting
+      client        = sy-mandt
+      setnr         = &apos;ZBS&apos;
+      table         = &apos;SKB1&apos;
+      class         = &apos;0000&apos;
+      fieldname     = &apos;SAKNR&apos;
+    tables
+      set_values    = lt_setvalues
+    exceptions
+      set_not_found = 1
+      others        = 2.
+
+  &quot; 去掉setnr前面0000
+  loop at lt_setvalues into ls_setvalues.
+    replace &apos;0000&apos; in ls_setvalues-setnr with &apos;&apos;.
+    modify lt_setvalues from ls_setvalues.
+    clear ls_setvalues.
+  endloop.
+
+  &quot; 填充fsitem字段(基于setnr)
+  loop at lt_ret.
+    loop at lt_setvalues into ls_setvalues.
+      if lt_ret-glaccount between ls_setvalues-from and ls_setvalues-to.
+        lt_ret-fsitem = ls_setvalues-setnr.
+        modify lt_ret.
+      endif.
+      clear ls_setvalues.
+    endloop.
+  endloop.
+
+  &quot; 计算汇总数
+  loop at lt_ret.
+    move-corresponding lt_ret to lt_sumtemp.
+    append lt_sumtemp.
+    clear: lt_ret, lt_sumtemp.
+  endloop.
+  sort lt_sumtemp by fsitem.
+  loop at lt_sumtemp.
+    collect lt_sumtemp into lt_sum.
+    clear: lt_sumtemp, lt_sum.
+  endloop.
+
+  acc_balances[] = lt_ret[].
+  fs_balances[] = lt_sum[].</fm_source_new>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+</nugget>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoSAP", "VSTOSAP\VstoSAP.csproj", "{57A39B49-D0DA-4AEA-8F68-D3BC6E3A6ADE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57A39B49-D0DA-4AEA-8F68-D3BC6E3A6ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57A39B49-D0DA-4AEA-8F68-D3BC6E3A6ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57A39B49-D0DA-4AEA-8F68-D3BC6E3A6ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57A39B49-D0DA-4AEA-8F68-D3BC6E3A6ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {119047AF-45C2-4170-9F52-5F514210E4AE}
+	EndGlobalSection
+EndGlobal

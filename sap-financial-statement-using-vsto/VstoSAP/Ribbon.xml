@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
+  <ribbon>
+    <tabs>
+      <tab idMso="TabAddIns" label="Smarter">
+        <group id="group1" label="SAP">
+          <button id="btnTableExplorer" onAction="btnTableExplorer_Click" label="SAP表数据查看" showImage="false" />
+          <button id="btnBalanceSheet" onAction="btnBalanceSheet_Click" label="资产负债表" showImage="false" />
+          <button id="btnTB" onAction="btnTB_Click" label="科目余额表" showImage="false" />
+          <button id="btnTest" onAction="btnTest_Click" label="测试" showImage="false" />
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+  <contextMenus>
+    <contextMenu idMso="ContextMenuCell">
+      <button id="DrillDownButton" label="数据下钻 - Smarter" imageMso="FileViewDigitalSignatures" showImage="true"
+              insertBeforeMso="Cut" onAction="drillDownButton_Click" />      
+    </contextMenu>
+  </contextMenus>
+</customUI>
