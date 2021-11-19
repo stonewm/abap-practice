@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FUGR AREA="ZEXCEL" SPRAS="E" AREAT="Excel Utilities">
+ <functionGroupDocumentation/>
+ <mainprogram NAME="SAPLZEXCEL" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="001" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+  <textPool/>
+  <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZEXCELTOP.                        &quot; Global Data
+  INCLUDE LZEXCELUXX.                        &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZEXCELF...                        &quot; Subprograms
+* INCLUDE LZEXCELO...                        &quot; PBO-Modules
+* INCLUDE LZEXCELI...                        &quot; PAI-Modules</source>
+ </mainprogram>
+ <includeprograms>
+  <include NAME="LZEXCELTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="001" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <include_source>function-pool zexcel.                       &quot;MESSAGE-ID ..
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  frm_get_fields
+*&amp;---------------------------------------------------------------------*
+form frm_get_fields using    pt_data     type any table
+                    changing pt_fields   type ddfields.
+
+  data: lr_tabdescr  type ref to cl_abap_structdescr,
+        lr_data      type ref to data,
+        lt_fields    type ddfields.
+
+  create data lr_data like line of pt_data.
+
+  lr_tabdescr ?= cl_abap_structdescr=&gt;describe_by_data_ref( lr_data ).
+  lt_fields    = cl_salv_data_descr=&gt;read_structdescr( lr_tabdescr ).
+
+  pt_fields = lt_fields.
+endform.                    &quot;frm_get_fields</include_source>
+  </include>
+ </includeprograms>
+ <functionmodules>
+  <functionmodule NAME="ZITAB_TO_EXCEL" STEXT="Export table to Excel">
+   <importing PARAMETER="INTERNAL_TAB" REFERENCE="X" TYP="ANY TABLE"/>
+   <exceptions EXCEPTION="DIM_MISMATCH_DATA"/>
+   <exceptions EXCEPTION="FILE_OPEN_ERROR"/>
+   <exceptions EXCEPTION="FILE_WRITE_ERROR"/>
+   <exceptions EXCEPTION="INV_WINSYS"/>
+   <exceptions EXCEPTION="INV_XXL"/>
+   <documentation PARAMETER="INTERNAL_TAB" KIND="P" STEXT="Internal table" INDEX=" 001"/>
+   <documentation PARAMETER="DIM_MISMATCH_DATA" KIND="X" INDEX=" 002"/>
+   <documentation PARAMETER="FILE_OPEN_ERROR" KIND="X" INDEX=" 003"/>
+   <documentation PARAMETER="FILE_WRITE_ERROR" KIND="X" INDEX=" 004"/>
+   <documentation PARAMETER="INV_WINSYS" KIND="X" INDEX=" 005"/>
+   <documentation PARAMETER="INV_XXL" KIND="X" INDEX=" 006"/>
+   <fm_source>data: lt_ddfields type ddfields,
+          ls_fields   type dfies.
+
+  perform frm_get_fields using internal_tab[] changing lt_ddfields[].
+
+  field-symbols &lt;fs&gt; type standard table.
+
+  data: t_heading type table of gxxlt_v with header line,
+        t_online  type table of gxxlt_o,
+        t_print   type table of gxxlt_p.
+
+  loop at lt_ddfields into ls_fields.
+    t_heading-col_no   = sy-tabix.
+    t_heading-col_name = ls_fields-scrtext_m.
+    append t_heading.
+  endloop.
+
+  assign internal_tab to &lt;fs&gt;.
+
+  call function &apos;XXL_SIMPLE_API&apos;
+    tables
+      col_text          = t_heading &quot; heading, column text
+      data              = &lt;fs&gt;
+      online_text       = t_online
+      print_text        = t_print
+    exceptions
+      dim_mismatch_data = 1
+      file_open_error   = 2
+      file_write_error  = 3
+      inv_winsys        = 4
+      inv_xxl           = 5
+      others            = 6.
+
+  case sy-subrc.
+    when 1. raise dim_mismatch_data.
+    when 2. raise file_open_error.
+    when 3. raise file_write_error.
+    when 4. raise inv_winsys.
+    when 5. raise inv_xxl.
+  endcase.</fm_source>
+   <functionModuleDocumentation/>
+  </functionmodule>
+ </functionmodules>
+</FUGR>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="Z_FALV_FUNCTIONGROUP">
+ <FUGR AREA="ZALVGROUP" SPRAS="E" AREAT="ALV Wrapper Function Group">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZALVGROUP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="001" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZALVGROUPTOP.                     &quot; Global Data
+  INCLUDE LZALVGROUPUXX.                     &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZALVGROUPF...                     &quot; Subprograms
+* INCLUDE LZALVGROUPO...                     &quot; PBO-Modules
+* INCLUDE LZALVGROUPI...                     &quot; PAI-Modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZALVGROUPTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="001" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>function-pool zalvgroup.                    &quot;MESSAGE-ID ..
+
+type-pools slis.
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  frm_get_fields
+*&amp;---------------------------------------------------------------------*
+form frm_get_fields using    pt_data     type any table
+                    changing pt_fields   type ddfields.
+
+  data: lr_tabdescr  type ref to cl_abap_structdescr,
+        lr_data      type ref to data,
+        lt_fields    type ddfields.
+
+  create data lr_data like line of pt_data.
+
+  lr_tabdescr ?= cl_abap_structdescr=&gt;describe_by_data_ref( lr_data ).
+  lt_fields    = cl_salv_data_descr=&gt;read_structdescr( lr_tabdescr ).
+
+  pt_fields = lt_fields.
+endform.                    &quot;frm_get_fields</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="Z_FALV_FIELD_CATALOG" STEXT="Build Field Catalog">
+    <importing PARAMETER="IT_OUTPUT" REFERENCE="X" TYP="ANY TABLE"/>
+    <tables PARAMETER="FIELD_CATALOG" TYP="SLIS_T_FIELDCAT_ALV"/>
+    <documentation PARAMETER="IT_OUTPUT" KIND="P" INDEX=" 001"/>
+    <documentation PARAMETER="FIELD_CATALOG" KIND="P" INDEX=" 002"/>
+    <fm_source>data: lt_ddfields type ddfields,
+        ls_fields   type dfies.
+
+  data: ls_fieldcat type slis_fieldcat_alv.
+  data: lt_fieldcat type slis_t_fieldcat_alv.
+
+  perform frm_get_fields using it_output[] changing lt_ddfields[].
+
+  loop at lt_ddfields into ls_fields.
+    move-corresponding ls_fields to ls_fieldcat.
+    append ls_fieldcat to lt_fieldcat.
+    clear ls_fieldcat.
+  endloop.
+
+  append lines of lt_fieldcat to field_catalog.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+</nugget>
