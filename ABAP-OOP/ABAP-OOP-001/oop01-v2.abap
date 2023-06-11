@@ -1,77 +1,62 @@
 *&---------------------------------------------------------------------*
-*& Report  Z_OOP_01
+*& Report  Z_OOP_01_1
 *&
 *&---------------------------------------------------------------------*
 
-REPORT  z_oop_01.
+report  z_oop_01_1.
 
-*----------------------------------------------------------------------*
-*       CLASS book DEFINITION
-*----------------------------------------------------------------------*
-CLASS book DEFINITION.
+class book definition.
+  public section.
+    types: ty_price type p length 10 decimals 2.
 
-  PUBLIC SECTION.
-    TYPES: ty_price TYPE p LENGTH 10 DECIMALS 2.
+    methods constructor importing
+        title     type string
+        author    type string
+        publisher type string
+        price     type ty_price.
 
-    METHODS:
-      constructor IMPORTING title     TYPE string
-                            author    TYPE string
-                            publisher TYPE string
-                            price     TYPE ty_price,
+    methods print_info.
 
-      set_price IMPORTING new_price TYPE ty_price,
-      print_info.
+  private section.
+    data: title     type string,
+          author    type string,
+          publisher type string,
+          price     type ty_price.
+endclass.                    "book DEFINITION
 
-  PRIVATE SECTION.
-    DATA: title     TYPE string,
-          author    TYPE string,
-          publisher TYPE string,
-          price     TYPE p DECIMALS 2.
-ENDCLASS.                    "book DEFINITION
-
-*----------------------------------------------------------------------*
-*       CLASS book IMPLEMENTATION
-*----------------------------------------------------------------------*
-CLASS book IMPLEMENTATION.
-
-  METHOD constructor.
+class book implementation.
+  method constructor.
     me->title = title.
     me->author = author.
     me->publisher = publisher.
     me->price = price.
-  ENDMETHOD.                    "constructor
+  endmethod.                    "constructor
 
-  METHOD set_price.
-    me->price = new_price.
-  ENDMETHOD.                    "set_price
-
-  METHOD print_info.
-    WRITE: / 'Title:', title.
-    WRITE: / 'Author:', author.
-    WRITE: / 'Publisher:', publisher.
-    WRITE: / 'Price:', price.
-  ENDMETHOD.                    "print_info
-
-ENDCLASS.                    "Book IMPLEMENTATION
+  method print_info.
+    write: / 'title:', me->title,
+           / 'author:', me->author,
+           / 'publisher:', me->publisher,
+           / 'price:',me->price.
+  endmethod.                    "print_info
+endclass.                    "book IMPLEMENTATION
 
 
-START-OF-SELECTION.
-  DATA: book1 TYPE REF TO book,
-        book2 TYPE REF TO book.
+start-of-selection.
+  data: book1 type ref to book,
+        book2 type ref to book.
 
-  CREATE OBJECT book1
-    EXPORTING title     = '窗边的小豆豆'
-              author    = '黑柳彻子'
-              publisher = '南海出版公司'
-              price = '39.5'.
+  create object book1 exporting
+    title = '窗边的小豆豆'
+    author = '黑柳彻子'
+    publisher = '南海出版公司'
+    price = '39.5'.
 
-  CREATE OBJECT book2
-    EXPORTING title     = '人间失格'
-              author    = '太宰治'
-              publisher = '作家出版社'
-              price = '18.8'.
+
+  create object book2 exporting
+    title = '人间失格'
+    author = '太宰治'
+    publisher = '作家出版社'
+    price = '18.8'.
 
   book1->print_info( ).
-
-  book2->set_price( '22.0' ).
   book2->print_info( ).

@@ -1,58 +1,42 @@
 *&---------------------------------------------------------------------*
-*& Report  Z_OOP_01
+*& Report  Z_00P_01
 *&
 *&---------------------------------------------------------------------*
 
-REPORT  z_oop_01.
+report  z_00p_01.
 
-*----------------------------------------------------------------------*
-*       CLASS book DEFINITION
-*----------------------------------------------------------------------*
-CLASS book DEFINITION.
+class book definition.
+  public section.
+    data: title type string,
+          author type string,
+          publisher type string,
+          price type p decimals 2.
 
-  PUBLIC SECTION.
-    TYPES: ty_price TYPE p LENGTH 10 DECIMALS 2.
+    methods: print_info.
+endclass.                    "book DEFINITION
 
-    DATA: title     TYPE string,
-          author    TYPE string,
-          publisher TYPE string,
-          price     TYPE p DECIMALS 2.
-
-    METHODS:
-      print_info.
-ENDCLASS.                    "lcl_book DEFINITION
-
-
-*----------------------------------------------------------------------*
-*       CLASS book IMPLEMENTATION
-*----------------------------------------------------------------------*
-CLASS book IMPLEMENTATION.
-
-  METHOD print_info.
-    WRITE: / 'Title:', title.
-    WRITE: / 'Author:', author.
-    WRITE: / 'Publisher:', publisher.
-    WRITE: / 'Price:', price.
-  ENDMETHOD.                    "print_info
-
-ENDCLASS.                    "Book IMPLEMENTATION
+class book implementation.
+  method print_info.
+    write: / 'title:', me->title,
+           / 'author:', me->author,
+           / 'publisher:', me->publisher,
+           / 'price:',me->price.
+  endmethod.                    "print_info
+endclass.                    "book IMPLEMENTATION
 
 
-START-OF-SELECTION.
+start-of-selection.
+  data: book1 type ref to book,
+        book2 type ref to book.
 
-*-------------定义引用类型的变量---------------------------------------*
-  DATA: book1 TYPE REF TO book,
-        book2 TYPE REF TO book.
-
-*-------------创建book的实例------------------------------------------*
-  CREATE OBJECT book1.
+  create object book1.
 
   book1->title = '窗边的小豆豆'.
   book1->author = '黑柳彻子'.
   book1->publisher = '南海出版公司'.
   book1->price = '39.5'.
 
-  CREATE OBJECT book2.
+  create object book2.
 
   book2->title = '人间失格'.
   book2->author = '太宰治'.
