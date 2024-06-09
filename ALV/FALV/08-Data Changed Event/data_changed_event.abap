@@ -2,6 +2,9 @@
 *& Report  ZFALV_DATA_CHANGED
 *&
 *&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
 
 report  zfalv_data_changed.
 
@@ -45,9 +48,16 @@ form frm_get_data.
   select * from spfli
     into table gt_spfli.
 
-  select distinct cityfrom
+  clear gs_cities.
+  select cityfrom
     from spfli
-    into corresponding fields of table gt_cities.
+    into gs_cities-city.
+    append gs_cities to gt_cities.
+    clear gs_cities.
+  endselect.
+
+  sort gt_cities by city.
+  delete adjacent duplicates from gt_cities.
 endform.                    "frm_get_data
 
 
